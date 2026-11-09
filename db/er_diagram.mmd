@@ -1,0 +1,74 @@
+erDiagram
+    USERS ||--o{ COURSES : teaches
+    USERS ||--o{ ENROLLMENTS : registers
+    COURSES ||--o{ ENROLLMENTS : contains
+    COURSES ||--o{ EXAMS : has
+    USERS ||--o{ EXAMS : creates
+    EXAMS ||--o{ QUESTIONS : contains
+    QUESTIONS ||--|{ QUESTION_OPTIONS : has
+    USERS ||--o{ ATTEMPTS : makes
+    EXAMS ||--o{ ATTEMPTS : receives
+    ATTEMPTS ||--o{ RESPONSES : contains
+    QUESTIONS ||--o{ RESPONSES : answered_in
+    QUESTION_OPTIONS ||--o{ RESPONSES : selected_as
+
+    USERS {
+        bigint user_id PK
+        varchar full_name
+        varchar email UK
+        varchar password_hash
+        enum role
+        boolean is_active
+    }
+    COURSES {
+        bigint course_id PK
+        varchar course_code UK
+        varchar course_name
+        bigint faculty_id FK
+    }
+    ENROLLMENTS {
+        bigint student_id PK,FK
+        bigint course_id PK,FK
+        date enrollment_date
+    }
+    EXAMS {
+        bigint exam_id PK
+        bigint course_id FK
+        bigint created_by FK
+        varchar exam_title
+        datetime start_time
+        datetime end_time
+        int duration_minutes
+        decimal total_marks
+        decimal pass_percentage
+        enum status
+    }
+    QUESTIONS {
+        bigint question_id PK
+        bigint exam_id FK
+        text question_text
+        decimal marks
+        int question_order
+    }
+    QUESTION_OPTIONS {
+        bigint option_id PK
+        bigint question_id FK
+        char option_label
+        text option_text
+        boolean is_correct
+    }
+    ATTEMPTS {
+        bigint attempt_id PK
+        bigint exam_id FK
+        bigint student_id FK
+        datetime started_at
+        datetime submitted_at
+        decimal score
+        enum status
+    }
+    RESPONSES {
+        bigint attempt_id PK,FK
+        bigint question_id PK,FK
+        bigint exam_id FK
+        bigint selected_option_id FK
+    }

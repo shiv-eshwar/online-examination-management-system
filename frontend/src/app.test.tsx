@@ -1,0 +1,5 @@
+// @vitest-environment jsdom
+import React from 'react';import{render,screen,fireEvent,waitFor,cleanup}from'@testing-library/react';import{it,expect,vi,afterEach}from'vitest';import{App}from'./main';
+afterEach(()=>{cleanup();vi.restoreAllMocks();sessionStorage.clear();});
+it('shows accessible institution sign-in fields',()=>{render(<App/>);expect(screen.getByLabelText('Email address').getAttribute('type')).toBe('email');expect(screen.getByLabelText('Password').getAttribute('type')).toBe('password');expect(screen.getByRole('button',{name:'Sign in →'})).toBeTruthy();});
+it('shows a backend authentication error',async()=>{vi.stubGlobal('fetch',vi.fn().mockResolvedValue({ok:false,json:async()=>({message:'Invalid credentials'})}));render(<App/>);fireEvent.change(screen.getByLabelText('Email address'),{target:{value:'bad@demo.edu'}});fireEvent.change(screen.getByLabelText('Password'),{target:{value:'wrong'}});fireEvent.submit(screen.getByRole('button',{name:'Sign in →'}).closest('form')!);await waitFor(()=>expect(screen.getByRole('alert').textContent).toBe('Invalid credentials'));});

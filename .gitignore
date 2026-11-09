@@ -1,0 +1,23 @@
+.env
+.env.*
+!.env.example
+!.env.template
+target/
+build/
+node_modules/
+dist/
+.vite/
+coverage/
+*.log
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.firecrawl/
+*.tsbuildinfo
+
+# Local evidence and original supplied document (not application source)
+docs/screenshots/
+*.docx
+__pycache__/
+*.pyc

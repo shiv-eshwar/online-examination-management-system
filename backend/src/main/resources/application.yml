@@ -1,0 +1,18 @@
+server:
+  port: ${SERVER_PORT:8080}
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/online_exam_system?serverTimezone=UTC}
+    username: ${DB_USERNAME:exam_app}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  jackson:
+    time-zone: UTC
+exam:
+  jwt-secret: ${JWT_SECRET}
+  origin: ${FRONTEND_ORIGIN:http://localhost:5173}
+  pass-percentage: ${PASS_PERCENTAGE:40}
